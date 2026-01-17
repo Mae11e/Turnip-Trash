@@ -1,71 +1,129 @@
-# Ridiculously Overpowered
+# 🥕 Turnip Trash
 
-Shooter Arena Survival - Mini Jam 202
+**Ridiculously Overpowered** - Shooter Arena Survival
+> Un navet contre des ratons laveurs et des poubelles!
 
-## Thème
-Un **navet héroïque** défend le monde végétal pastel contre une invasion de **ratons laveurs** et de **poubelles** polluantes!
-Collecte des gems, level up et deviens ridiculement overpowered pour sauver la prairie!
+Mini Jam 202 - Game Jam Entry
 
-## Comment lancer le jeu
+## 🎮 Comment Jouer
 
-### Option 1: Script automatique
+### Contrôles
+- **Souris**: Déplacer le joueur (le navet suit le curseur)
+- **Tir**: Automatique (2 projectiles dans des directions aléatoires)
+- **ESC**: Retour au menu
+
+### Objectif
+Survivre aux vagues d'ennemis (raccoons et poubelles) qui tirent aussi!
+Collecte des points en éliminant les ennemis.
+
+## 🚀 Lancement Rapide
+
+### Jouer en local
 ```bash
-./run.sh
+python3 launch.py
+# ou
+./launch.sh
 ```
 
-### Option 2: Manuel
+### Build pour le web (itch.io)
 ```bash
-# Depuis le dossier racine du projet
-source template/venv/bin/activate
-cd game
-python3 main.py
+python3 launch.py --build
 ```
 
-## Fonctionnalités actuelles
+Cela créera `turnip-trash-web.zip` prêt pour upload!
 
-### Menu Principal
-- **Jouer** : Lance le jeu avec la première vague
-- **Sélection de vague** : Choisis ta vague (1-4) avec différentes difficultés
-- **Paramètres** : Ajuste le volume et les options de debug
-- **Quitter** : Ferme le jeu
-
-### Sélection de vagues
-4 vagues disponibles avec des difficultés croissantes:
-1. **Tutoriel** (Facile) - Ennemis faibles, boss toutes les 3 vagues
-2. **Standard** (Moyen) - Équilibré, boss toutes les 2 vagues
-3. **Intense** (Difficile) - Ennemis nombreux, boss fréquents
-4. **Chaos** (Extrême) - Spawn continu, boss aléatoires
-
-### Paramètres
-- Volume musique (slider)
-- Volume effets sonores (slider)
-- Toggle FPS (affichage du compteur)
-- Toggle Hitboxes (affichage des zones de collision)
-
-## Raccourcis clavier
-- **F3** : Toggle affichage FPS
-- **F4** : Toggle affichage Hitboxes
-- **ESC** : Retour au menu (depuis le jeu)
-
-## Structure du projet
-
-```
-game/
-├── main.py              # Point d'entrée du jeu
-├── config.json          # Configuration du jeu
-├── scenes/              # Scènes personnalisées
-│   ├── menu.py         # Menu principal
-│   ├── wave_selection.py # Sélection de vague
-│   └── settings.py     # Paramètres
-└── run.sh              # Script de lancement
+### Tester le build web
+```bash
+python3 launch.py --web
 ```
 
-Le jeu utilise la template située dans `../template/` pour les systèmes de base (input, audio, assets, etc.).
+Ouvre `http://localhost:8000` dans ton navigateur.
 
-## À faire
-- Implémenter la scène de jeu avec le système de vagues
-- Ajouter le joueur et les ennemis
-- Système de power-ups ridiculement overpowered
-- Système de level-up et upgrades
-- Boss fights
-- Effets visuels et particules
+⚠️ **Note**: Le test local peut afficher une page noire à cause des restrictions CORS. Le build fonctionne parfaitement sur itch.io!
+
+## 📦 Structure du Projet
+
+```
+Turnip-Trash/
+├── game/              # Code du jeu
+│   ├── main.py       # Point d'entrée (compatible asyncio)
+│   ├── scenes/       # Scènes du jeu
+│   │   ├── menu.py
+│   │   ├── wave_selection.py
+│   │   └── wave1.py  # Vague 1 - Tutoriel
+│   └── config.json   # Configuration
+├── assets/           # Images et sons
+│   ├── player.png
+│   ├── racoon_ennemie.png
+│   └── ennemie_basic.png
+├── template/         # Framework de jeu
+├── launch.py         # Script de lancement
+└── launch.sh         # Alternative bash
+```
+
+## 🎨 Caractéristiques
+
+### Vague 1 - Tutoriel
+- ✅ 15 ennemis à éliminer
+- ✅ 2 types d'ennemis (raccoons rapides, poubelles lentes)
+- ✅ Tir automatique aléatoire (joueur et ennemis)
+- ✅ Sprites animés (80x80px)
+- ✅ Système de particules
+- ✅ Collisions et dégâts
+- ✅ Score et statistiques
+
+### Système de Tir
+- **Joueur**: Tire 2 projectiles dans des directions aléatoires (5 tirs/sec)
+- **Ennemis**: Tirent aussi dans des directions aléatoires
+  - Raccoons: toutes les 2 secondes
+  - Poubelles: toutes les 3 secondes
+
+### Visuel
+- Style pastel nature
+- Animations fluides
+- Effets de particules
+- Interface claire
+
+## 🔧 Développement
+
+### Prérequis
+```bash
+# Environnement virtuel pour le jeu
+python3 -m venv template/venv
+template/venv/bin/pip install pygame
+
+# Pour le build web
+python3 -m venv build_env
+build_env/bin/pip install pygbag
+```
+
+### Lancer en mode développement
+```bash
+template/venv/bin/python3 game/main.py
+```
+
+## 📤 Upload sur itch.io
+
+1. Build le jeu: `python3 launch.py --build`
+2. Va sur https://itch.io/game/new
+3. Upload `turnip-trash-web.zip`
+4. Coche "This file will be played in the browser"
+5. Kind of project: **HTML**
+6. Dimensions: 1280x720
+
+## 📝 Notes Techniques
+
+- **Moteur**: Pygame + Template personnalisé
+- **Build Web**: Pygbag (pygame → WebAssembly)
+- **Compatibilité**: Python 3.12, asyncio pour le web
+- **Assets**: PNG avec transparence
+
+## 👥 Crédits
+
+- **Développement**: Game Jam Team
+- **Framework**: Template Pygame personnalisé
+- **Build**: Pygbag
+
+---
+
+**Mini Jam 202** - Thème: Ridiculously Overpowered

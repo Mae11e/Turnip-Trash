@@ -4,6 +4,7 @@ Shooter Arena Survival - Mini Jam 202
 """
 import sys
 import os
+import asyncio
 
 # Ajoute le dossier template au path pour importer les modules
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'template'))
@@ -170,8 +171,8 @@ class Game:
         fps_text = font.render(f"FPS: {fps}", True, (0, 255, 0))
         self.screen.blit(fps_text, (10, 10))
 
-    def run(self):
-        """Boucle principale du jeu."""
+    async def run(self):
+        """Boucle principale du jeu (async pour pygbag)."""
         while self.running:
             # Delta time en secondes
             dt = self.clock.tick(self.config.fps) / 1000.0
@@ -180,6 +181,9 @@ class Game:
             self.handle_events()
             self.update(dt)
             self.draw()
+
+            # Requis pour pygbag (compatibilité web)
+            await asyncio.sleep(0)
 
         self.quit()
 
@@ -194,11 +198,11 @@ class Game:
         sys.exit()
 
 
-def main():
+async def main():
     """Point d'entrée du programme."""
     game = Game()
-    game.run()
+    await game.run()
 
 
 if __name__ == '__main__':
-    main()
+    asyncio.run(main())
