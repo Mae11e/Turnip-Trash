@@ -1,0 +1,27 @@
+{
+    "window": {
+        "width": 1280,
+        "height": 720,
+        "title": "Ridiculously Overpowered",
+        "fps": 60
+    },
+    "audio": {
+        "music_volume": 0.7,
+        "sfx_volume": 0.8
+    },
+    "debug": {
+        "show_fps": false,
+        "show_hitboxes": false
+    },
+    "game": {
+        "player_speed": 200,
+        "player_max_health": 100,
+        "enemy_spawn_rate": 1.0,
+        "xp_magnet_range": 50
+    },
+    "keybindings": {
+        "pause": 27,
+        "upgrade_menu": 9,
+        "toggle_debug": 282
+    }
+}
