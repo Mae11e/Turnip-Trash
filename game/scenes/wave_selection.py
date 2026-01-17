@@ -172,7 +172,13 @@ class WaveSelectionScene(Scene):
             if card.update(self.game.input):
                 # Démarre le jeu avec la vague sélectionnée
                 self.game.selected_wave = card.wave_number
-                self.game.scene_manager.change_scene('game')
+
+                # Lance la scène correspondante
+                if card.wave_number == 1:
+                    self.game.scene_manager.change_scene('wave1')
+                else:
+                    # Pour les autres vagues, utilise la scène par défaut
+                    self.game.scene_manager.change_scene('game')
                 return
 
         # Bouton retour

@@ -6,12 +6,12 @@
         "fps": 60
     },
     "audio": {
-        "music_volume": 0.7,
-        "sfx_volume": 0.8
+        "music_volume": 0.7366666666666667,
+        "sfx_volume": 0.56
     },
     "debug": {
         "show_fps": false,
-        "show_hitboxes": false
+        "show_hitboxes": true
     },
     "game": {
         "player_speed": 200,

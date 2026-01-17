@@ -29,10 +29,12 @@ game_dir = os.path.dirname(__file__)
 menu_module = load_scene_module("menu", os.path.join(game_dir, "scenes", "menu.py"))
 wave_module = load_scene_module("wave_selection", os.path.join(game_dir, "scenes", "wave_selection.py"))
 settings_module = load_scene_module("settings_scene", os.path.join(game_dir, "scenes", "settings.py"))
+wave1_module = load_scene_module("wave1", os.path.join(game_dir, "scenes", "wave1.py"))
 
 MenuScene = menu_module.MenuScene
 WaveSelectionScene = wave_module.WaveSelectionScene
 SettingsScene = settings_module.SettingsScene
+Wave1Scene = wave1_module.Wave1Scene
 
 
 class Game:
@@ -107,6 +109,9 @@ class Game:
         self.scene_manager.add_scene('menu', MenuScene(self))
         self.scene_manager.add_scene('wave_selection', WaveSelectionScene(self))
         self.scene_manager.add_scene('settings', SettingsScene(self))
+
+        # Scènes de vagues
+        self.scene_manager.add_scene('wave1', Wave1Scene(self))
 
         # Scènes de la template pour le jeu
         self.scene_manager.add_scene('game', GameScene(self))
