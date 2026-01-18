@@ -1,6 +1,7 @@
 # 🥕 Turnip Trash
 
 **Ridiculously Overpowered** - Shooter Arena Survival
+
 > Un navet contre des ratons laveurs et des poubelles!
 
 Mini Jam 202 - Game Jam Entry
@@ -25,12 +26,10 @@ python3 launch.py
 ./launch.sh
 ```
 
-### Build pour le web (itch.io)
+### Build pour le web
 ```bash
 python3 launch.py --build
 ```
-
-Cela créera `turnip-trash-web.zip` prêt pour upload!
 
 ### Tester le build web
 ```bash
@@ -50,39 +49,48 @@ Turnip-Trash/
 │   ├── scenes/       # Scènes du jeu
 │   │   ├── menu.py
 │   │   ├── wave_selection.py
-│   │   └── wave1.py  # Vague 1 - Tutoriel
+│   │   └── wave.py   # Système de vagues universel (20 niveaux)
 │   └── config.json   # Configuration
 ├── assets/           # Images et sons
 │   ├── player.png
 │   ├── racoon_ennemie.png
 │   └── ennemie_basic.png
 ├── template/         # Framework de jeu
+├── docs/             # Documentation
 ├── launch.py         # Script de lancement
 └── launch.sh         # Alternative bash
 ```
 
 ## 🎨 Caractéristiques
 
-### Vague 1 - Tutoriel
-- ✅ 15 ennemis à éliminer
+### Système de Vagues
+- ✅ **20 vagues** avec progression automatique
+- ✅ Difficulté dynamique basée sur des formules
 - ✅ 2 types d'ennemis (raccoons rapides, poubelles lentes)
-- ✅ Tir automatique aléatoire (joueur et ennemis)
-- ✅ Sprites animés (80x80px)
-- ✅ Système de particules
-- ✅ Collisions et dégâts
-- ✅ Score et statistiques
+- ✅ Barres de vie colorées au-dessus des ennemis
+- ✅ Tirs multiples des ennemis (augmente tous les 5 niveaux)
 
 ### Système de Tir
 - **Joueur**: Tire 2 projectiles dans des directions aléatoires (5 tirs/sec)
 - **Ennemis**: Tirent aussi dans des directions aléatoires
-  - Raccoons: toutes les 2 secondes
-  - Poubelles: toutes les 3 secondes
+  - Vagues 1-4: 1 projectile
+  - Vagues 5-9: 2 projectiles
+  - Vagues 10-14: 3 projectiles
+  - Vagues 15-20: 4 projectiles
 
 ### Visuel
-- Style pastel nature
-- Animations fluides
+- Sprites animés (80x80px)
+- Barres de vie dynamiques (vert → jaune → rouge)
 - Effets de particules
 - Interface claire
+
+## 📚 Documentation
+
+- [VAGUES.md](VAGUES.md) - Système de vagues et progression
+- [BUILD.md](BUILD.md) - Instructions de build et déploiement
+- [SCENES.md](SCENES.md) - Comment ajouter de nouvelles scènes
+- [JAM_RULES.md](JAM_RULES.md) - Règles de la game jam
+- [IDEAS.md](IDEAS.md) - Idées et améliorations futures
 
 ## 🔧 Développement
 
@@ -101,15 +109,6 @@ build_env/bin/pip install pygbag
 ```bash
 template/venv/bin/python3 game/main.py
 ```
-
-## 📤 Upload sur itch.io
-
-1. Build le jeu: `python3 launch.py --build`
-2. Va sur https://itch.io/game/new
-3. Upload `turnip-trash-web.zip`
-4. Coche "This file will be played in the browser"
-5. Kind of project: **HTML**
-6. Dimensions: 1280x720
 
 ## 📝 Notes Techniques
 

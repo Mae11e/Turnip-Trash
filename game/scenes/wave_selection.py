@@ -97,46 +97,44 @@ class WaveSelectionScene(Scene):
             center=True
         )
 
-        # Description des vagues
-        waves_data = [
-            {
-                "number": 1,
-                "description": "Tutoriel\nEnnemis faibles\nBoss toutes les 3 vagues",
-                "difficulty": "Facile"
-            },
-            {
-                "number": 2,
-                "description": "Standard\nÉquilibré\nBoss toutes les 2 vagues",
-                "difficulty": "Moyen"
-            },
-            {
-                "number": 3,
-                "description": "Intense\nEnnemis nombreux\nBoss fréquents",
-                "difficulty": "Difficile"
-            },
-            {
-                "number": 4,
-                "description": "Chaos\nSpawn continu\nBoss aléatoires",
-                "difficulty": "Extreme"
-            }
-        ]
-
-        # Créer les cartes de vagues
+        # Créer les cartes de vagues (20 vagues en grille)
         self.wave_cards = []
-        card_width = 250
-        card_height = 200
-        spacing = 30
-        total_width = len(waves_data) * card_width + (len(waves_data) - 1) * spacing
-        start_x = (self.game.config.window_width - total_width) // 2
-        card_y = 150
+        card_width = 120
+        card_height = 120
+        spacing_x = 20
+        spacing_y = 20
+        cards_per_row = 5
+        rows = 4  # 5x4 = 20 vagues
 
-        for i, wave_data in enumerate(waves_data):
-            card_x = start_x + i * (card_width + spacing)
+        start_x = (self.game.config.window_width - (cards_per_row * card_width + (cards_per_row - 1) * spacing_x)) // 2
+        start_y = 120
+
+        for i in range(1, 21):  # 20 vagues
+            row = (i - 1) // cards_per_row
+            col = (i - 1) % cards_per_row
+
+            card_x = start_x + col * (card_width + spacing_x)
+            card_y = start_y + row * (card_height + spacing_y)
+
+            # Détermine la difficulté selon le numéro
+            if i <= 5:
+                difficulty = "Facile"
+                desc = f"{9 * i} ennemis"
+            elif i <= 10:
+                difficulty = "Moyen"
+                desc = f"{9 * i} ennemis"
+            elif i <= 15:
+                difficulty = "Difficile"
+                desc = f"{9 * i} ennemis"
+            else:
+                difficulty = "Extrême"
+                desc = f"{9 * i} ennemis"
+
             card = WaveCard(
                 card_x, card_y, card_width, card_height,
-                wave_data["number"],
-                wave_data["description"],
-                wave_data["difficulty"]
+                i,
+                desc,
+                difficulty
             )
             self.wave_cards.append(card)
 
@@ -173,11 +171,12 @@ class WaveSelectionScene(Scene):
                 # Démarre le jeu avec la vague sélectionnée
                 self.game.selected_wave = card.wave_number
 
-                # Lance la scène correspondante
-                if card.wave_number == 1:
-                    self.game.scene_manager.change_scene('wave1')
+                # Lance la scène correspondante (système universel)
+                scene_name = f'wave{card.wave_number}'
+                if scene_name in self.game.scene_manager.scenes:
+                    self.game.scene_manager.change_scene(scene_name)
                 else:
-                    # Pour les autres vagues, utilise la scène par défaut
+                    # Fallback sur la scène de jeu par défaut
                     self.game.scene_manager.change_scene('game')
                 return
 

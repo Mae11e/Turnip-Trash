@@ -28,14 +28,14 @@ def load_scene_module(module_name, file_path):
 # Charge les scènes custom
 game_dir = os.path.dirname(__file__)
 menu_module = load_scene_module("menu", os.path.join(game_dir, "scenes", "menu.py"))
-wave_module = load_scene_module("wave_selection", os.path.join(game_dir, "scenes", "wave_selection.py"))
+wave_selection_module = load_scene_module("wave_selection", os.path.join(game_dir, "scenes", "wave_selection.py"))
 settings_module = load_scene_module("settings_scene", os.path.join(game_dir, "scenes", "settings.py"))
-wave1_module = load_scene_module("wave1", os.path.join(game_dir, "scenes", "wave1.py"))
+wave_system_module = load_scene_module("wave_system", os.path.join(game_dir, "scenes", "wave.py"))
 
 MenuScene = menu_module.MenuScene
-WaveSelectionScene = wave_module.WaveSelectionScene
+WaveSelectionScene = wave_selection_module.WaveSelectionScene
 SettingsScene = settings_module.SettingsScene
-Wave1Scene = wave1_module.Wave1Scene
+WaveScene = wave_system_module.WaveScene
 
 
 class Game:
@@ -111,8 +111,10 @@ class Game:
         self.scene_manager.add_scene('wave_selection', WaveSelectionScene(self))
         self.scene_manager.add_scene('settings', SettingsScene(self))
 
-        # Scènes de vagues
-        self.scene_manager.add_scene('wave1', Wave1Scene(self))
+        # Scènes de vagues (système universel)
+        # On crée des instances pour les 20 vagues
+        for i in range(1, 21):
+            self.scene_manager.add_scene(f'wave{i}', WaveScene(self, wave_number=i))
 
         # Scènes de la template pour le jeu
         self.scene_manager.add_scene('game', GameScene(self))
