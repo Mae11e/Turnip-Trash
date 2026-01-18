@@ -77,7 +77,14 @@ class WaveCard:
 class WaveSelectionScene(Scene):
     """Scène de sélection de vague."""
 
+    def __init__(self, game):
+        super().__init__(game)
+        self.input_delay = 0.3  # Délai avant de pouvoir interagir (secondes)
+        self.current_delay = 0
+
     def on_enter(self):
+        # Réinitialise le délai à chaque entrée
+        self.current_delay = self.input_delay
         """Initialise la scène de sélection."""
         font_large = self.game.assets.get_font('large')
         font_medium = self.game.assets.get_font('medium')
@@ -165,6 +172,11 @@ class WaveSelectionScene(Scene):
 
     def update(self, dt):
         """Met à jour la scène."""
+        # Diminue le délai
+        if self.current_delay > 0:
+            self.current_delay -= dt
+            return  # Ne traite pas les inputs pendant le délai
+
         # Vérifie les clics sur les cartes
         for card in self.wave_cards:
             if card.update(self.game.input):

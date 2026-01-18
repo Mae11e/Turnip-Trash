@@ -31,11 +31,17 @@ menu_module = load_scene_module("menu", os.path.join(game_dir, "scenes", "menu.p
 wave_selection_module = load_scene_module("wave_selection", os.path.join(game_dir, "scenes", "wave_selection.py"))
 settings_module = load_scene_module("settings_scene", os.path.join(game_dir, "scenes", "settings.py"))
 wave_system_module = load_scene_module("wave_system", os.path.join(game_dir, "scenes", "wave.py"))
+game_over_module = load_scene_module("game_over", os.path.join(game_dir, "scenes", "game_over.py"))
+victory_module = load_scene_module("victory", os.path.join(game_dir, "scenes", "victory.py"))
+shop_module = load_scene_module("shop", os.path.join(game_dir, "scenes", "shop.py"))
 
 MenuScene = menu_module.MenuScene
 WaveSelectionScene = wave_selection_module.WaveSelectionScene
 SettingsScene = settings_module.SettingsScene
 WaveScene = wave_system_module.WaveScene
+GameOverScene = game_over_module.GameOverScene
+VictoryScene = victory_module.VictoryScene
+ShopScene = shop_module.ShopScene
 
 
 class Game:
@@ -116,7 +122,12 @@ class Game:
         for i in range(1, 21):
             self.scene_manager.add_scene(f'wave{i}', WaveScene(self, wave_number=i))
 
-        # Scènes de la template pour le jeu
+        # Scènes de fin de jeu
+        self.scene_manager.add_scene('game_over', GameOverScene(self))
+        self.scene_manager.add_scene('victory', VictoryScene(self))
+        self.scene_manager.add_scene('shop', ShopScene(self))
+
+        # Scènes de la template pour le jeu (compatibilité)
         self.scene_manager.add_scene('game', GameScene(self))
         self.scene_manager.add_scene('gameover', GameOverScene(self))
 

@@ -15,8 +15,16 @@ from entities.ui import Button, Text
 class MenuScene(Scene):
     """Menu principal du jeu."""
 
+    def __init__(self, game):
+        super().__init__(game)
+        self.input_delay = 0.3  # Délai avant de pouvoir interagir (secondes)
+        self.current_delay = 0
+
     def on_enter(self):
         """Initialise le menu."""
+        # Réinitialise le délai à chaque entrée dans le menu
+        self.current_delay = self.input_delay
+
         # Récupère la police par défaut
         font_large = self.game.assets.get_font('large')
         font_medium = self.game.assets.get_font('medium')
@@ -69,9 +77,17 @@ class MenuScene(Scene):
             hover_color=(220, 200, 240)
         )
 
+        # Bouton shop - Jaune/Or pastel
+        self.shop_button = Button(
+            button_x, start_y + 180, button_width, button_height,
+            "SHOP (AMELIORATIONS)", font_medium,
+            color=(240, 220, 150),  # Jaune pastel
+            hover_color=(255, 240, 170)
+        )
+
         # Bouton paramètres - Bleu pastel
         self.settings_button = Button(
-            button_x, start_y + 180, button_width, button_height,
+            button_x, start_y + 270, button_width, button_height,
             "PARAMETRES", font_medium,
             color=(180, 210, 230),  # Bleu pastel
             hover_color=(200, 230, 250)
@@ -79,7 +95,7 @@ class MenuScene(Scene):
 
         # Bouton quitter - Gris pastel
         self.quit_button = Button(
-            button_x, start_y + 270, button_width, button_height,
+            button_x, start_y + 360, button_width, button_height,
             "QUITTER", font_medium,
             color=(200, 200, 210),  # Gris pastel
             hover_color=(220, 220, 230)
@@ -91,14 +107,24 @@ class MenuScene(Scene):
 
     def update(self, dt):
         """Met à jour le menu."""
+        # Diminue le délai
+        if self.current_delay > 0:
+            self.current_delay -= dt
+            return  # Ne traite pas les inputs pendant le délai
+
         # Met à jour les boutons
         if self.play_button.update(self.game.input):
             # Démarre le jeu avec la première vague
-            self.game.selected_wave = 1
-            self.game.scene_manager.change_scene('game')
+            self.game.scene_manager.change_scene('wave1')
 
         if self.wave_select_button.update(self.game.input):
             self.game.scene_manager.change_scene('wave_selection')
+
+        if self.shop_button.update(self.game.input):
+            # Aller au shop
+            shop_scene = self.game.scene_manager.scenes['shop']
+            shop_scene.set_next_wave(1)  # Prochaine vague = 1 depuis le menu
+            self.game.scene_manager.change_scene('shop')
 
         if self.settings_button.update(self.game.input):
             self.game.scene_manager.change_scene('settings')
@@ -123,6 +149,7 @@ class MenuScene(Scene):
         self.subtitle.draw(screen)
         self.play_button.draw(screen)
         self.wave_select_button.draw(screen)
+        self.shop_button.draw(screen)
         self.settings_button.draw(screen)
         self.quit_button.draw(screen)
 
